@@ -26,6 +26,31 @@ class ISO17364 {
         return base_convert($result, 2, 16);
     }
 
+    public function decode(string $string): string
+    {
+        $string = base_convert($string, 16, 2);
+
+        $targetLength = ceil(strlen($string) / 16) * 16;
+
+        $string = str_pad($string, $targetLength, '0', STR_PAD_LEFT);
+
+        $charArray = str_split($string, 6);
+
+        $eotBin = $this->charConversion("\4");
+
+        $indexEot = array_search($eotBin, $charArray);
+
+        $charArray = array_slice($charArray, 0, $indexEot);
+
+        $result = [];
+
+        foreach ($charArray as $char) {
+             $result[] = $this->charConversionDecode($char);
+        }
+
+        return implode("", $result);
+    }
+
     /**
      * @param string $char
      * @return string
@@ -69,4 +94,44 @@ class ISO17364 {
         return str_pad($dec, 6, '0', STR_PAD_LEFT);
     }
 
+    /**
+     * @param string $char
+     * @return string
+     * @throws \Exception
+     */
+    private function charConversionDecode(string $char): string
+    {
+        $n = bindec($char);
+
+        switch(true) {
+            case ($n === 33): # EOT
+                $ret = 4;
+                break;
+            case ($n === 35): # <FS>
+                $ret = 27;
+                break;
+            case ($n === 36): # <US>
+                $ret = 31;
+                break;
+            case ($n === 39): # <GS>
+                $ret = 29;
+                break;
+            case ($n === 301): # <RS>
+                $ret = 30;
+                break;
+            case ($n === 32): # SPACE
+                $ret = 32;
+                break;
+            case ($n >= 40 && $n <=63):
+                $ret = $n;
+                break;
+            case ($n >= 0 && $n <= 29):
+                $ret = $n + 64;
+                break;
+            default:
+                throw new \Exception(sprintf('Invalid char <%s> (%s)', $char, $n));
+        }
+
+        return chr($ret);
+    }
 }
