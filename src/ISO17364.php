@@ -23,7 +23,7 @@ class ISO17364 {
 
         $result = str_pad($result, $targetLength, '100000');
 
-        return base_convert($result, 2, 16);
+        return strtoupper(base_convert($result, 2, 16));
     }
 
     public function decode(string $string): string
