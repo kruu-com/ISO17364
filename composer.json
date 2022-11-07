@@ -2,7 +2,7 @@
     "name": "kruucom/iso17364",
     "type": "library",
     "autoload": {
-        "psr-4": {"ISO17364\\": "src/"}
+        "psr-4": {"KruuCom\\": "src/"}
     },
     "minimum-stability": "dev"
 }

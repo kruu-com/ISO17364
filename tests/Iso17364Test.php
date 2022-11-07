@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
+use KruuCom\Iso17364;
 use PHPUnit\Framework\TestCase;
-use ISO17364\ISO17364;
 
-final class ISO17364Test extends TestCase
+final class Iso17364Test extends TestCase
 {
 
     private $testData = [
@@ -16,7 +16,7 @@ final class ISO17364Test extends TestCase
 
     public function testCorrectEncoding(): void
     {
-        $iso = new ISO17364();
+        $iso = new Iso17364();
 
         foreach ($this->testData as $in => $out) {
             $this->assertEquals($out, $iso->encode($in));

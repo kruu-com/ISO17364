@@ -1,8 +1,9 @@
 <?php
 
-namespace ISO17364;
+namespace KruuCom;
 
-class ISO17364 {
+class Iso17364
+{
 
     public function encode(string $string): string
     {
@@ -19,6 +20,7 @@ class ISO17364 {
 
         $result = implode($result);
 
+        // The length must be a multiple of 16 bit so we fill up with '100000'
         $targetLength = ceil(strlen($result) / 16) * 16;
 
         $result = str_pad($result, $targetLength, '100000');
@@ -36,16 +38,18 @@ class ISO17364 {
 
         $charArray = str_split($string, 6);
 
+        // find position of EOT char
         $eotBin = $this->charConversion("\4");
 
         $indexEot = array_search($eotBin, $charArray);
 
+        // remove empty fill chars
         $charArray = array_slice($charArray, 0, $indexEot);
 
         $result = [];
 
         foreach ($charArray as $char) {
-             $result[] = $this->charConversionDecode($char);
+            $result[] = $this->charConversionDecode($char);
         }
 
         return implode("", $result);
@@ -60,7 +64,7 @@ class ISO17364 {
     {
         $n = ord($char);
 
-        switch(true) {
+        switch (true) {
             case ($n === 4): # EOT
                 $ret = 33;
                 break;
@@ -79,7 +83,7 @@ class ISO17364 {
             case ($n === 32): # SPACE
                 $ret = 32;
                 break;
-            case ($n >= 40 && $n <=63):
+            case ($n >= 40 && $n <= 63):
                 $ret = $n;
                 break;
             case ($n >= 64 && $n <= 93):
@@ -103,7 +107,7 @@ class ISO17364 {
     {
         $n = bindec($char);
 
-        switch(true) {
+        switch (true) {
             case ($n === 33): # EOT
                 $ret = 4;
                 break;
@@ -122,7 +126,7 @@ class ISO17364 {
             case ($n === 32): # SPACE
                 $ret = 32;
                 break;
-            case ($n >= 40 && $n <=63):
+            case ($n >= 40 && $n <= 63):
                 $ret = $n;
                 break;
             case ($n >= 0 && $n <= 29):
