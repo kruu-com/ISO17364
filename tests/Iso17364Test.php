@@ -12,6 +12,7 @@ final class Iso17364Test extends TestCase
         "SCBX 2736" => "4C3098832DF3DA18",
         "SPR 880" => "4D04A0E38C21",
         "SPR 879" => "4D04A0E37E61",
+        "SPR 876" => "4D04A0E37DA1",
     ];
 
     public function testCorrectEncoding(): void
@@ -29,6 +30,7 @@ final class Iso17364Test extends TestCase
 
         $testData["4D04A0E37E610000"] = "SPR 879";
         $testData["4D04A0E37E61"] = "SPR 879";
+        $testData["4D04A0E37DA1"] = "SPR 876";
 
         $iso = new ISO17364();
 
