@@ -13,6 +13,7 @@ final class Iso17364Test extends TestCase
         "SPR 880" => "4D04A0E38C21",
         "SPR 879" => "4D04A0E37E61",
         "SPR 876" => "4D04A0E37DA1",
+        "37SUN12345678999755512300FFFAS+123456" => "CF74D53B1CB3D35DB7E39E79DF5D75C72CF0C06186053AF1CB3D35DA1820",
     ];
 
     public function testCorrectEncoding(): void
@@ -27,10 +28,6 @@ final class Iso17364Test extends TestCase
     public function testCorrectDecoding(): void
     {
         $testData = array_flip($this->testData);
-
-        $testData["4D04A0E37E610000"] = "SPR 879";
-        $testData["4D04A0E37E61"] = "SPR 879";
-        $testData["4D04A0E37DA1"] = "SPR 876";
 
         $iso = new ISO17364();
 

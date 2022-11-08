@@ -25,18 +25,26 @@ class Iso17364
 
         $result = str_pad($result, $targetLength, '100000');
 
-        return strtoupper(base_convert($result, 2, 16));
+        $arr = str_split($result, 8);
+
+        foreach($arr as $k => $a) {
+            $arr[$k] = str_pad(strtoupper(base_convert($a, 2, 16)), 2, "0", STR_PAD_LEFT);
+        }
+
+        return implode($arr, "");
     }
 
     public function decode(string $string): string
     {
-        $string = base_convert($string, 16, 2);
+        $arr = str_split($string, 2);
 
-        $targetLength = ceil(strlen($string) / 16) * 16;
+        foreach ($arr as $k => $v) {
+            $arr[$k] = sprintf('%08d', base_convert($v, 16, 2));
+        }
 
-        $string = str_pad($string, $targetLength, '0', STR_PAD_LEFT);
+        $impl = implode($arr, "");
 
-        $charArray = str_split($string, 6);
+        $charArray = str_split($impl, 6);
 
         // find position of EOT char
         $eotBin = $this->charConversion("\4");
@@ -138,4 +146,5 @@ class Iso17364
 
         return chr($ret);
     }
+
 }
