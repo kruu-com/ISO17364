@@ -27,11 +27,11 @@ class Iso17364
 
         $arr = str_split($result, 8);
 
-        foreach($arr as $k => $a) {
+        foreach ($arr as $k => $a) {
             $arr[$k] = str_pad(strtoupper(base_convert($a, 2, 16)), 2, "0", STR_PAD_LEFT);
         }
 
-        return implode($arr, "");
+        return implode( "", $arr);
     }
 
     public function decode(string $string): string
@@ -42,7 +42,7 @@ class Iso17364
             $arr[$k] = sprintf('%08d', base_convert($v, 16, 2));
         }
 
-        $impl = implode($arr, "");
+        $impl = implode("", $arr);
 
         $charArray = str_split($impl, 6);
 
