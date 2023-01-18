@@ -8,7 +8,7 @@ This library encodes and decodes the content of an RFID defined in the ISO 17364
 
 ## Run tests
 
-`docker run -v $(pwd):/app --rm phpunit/phpunit .`
+`docker compose run php vendor/bin/phpunit .`
 
 # 6-Bit ASCII table
 
@@ -30,3 +30,37 @@ This library encodes and decodes the content of an RFID defined in the ISO 17364
 | -            | 101101 | =     | 111101 | M     | 001101 | ]      | 011101 |
 | .            | 101110 | >     | 111110 | N     | 001110 | \<GS\> | 011110 |
 | /            | 101111 | ?     | 111111 | O     | 001111 | \<RS\> | 011111 |
+
+# Documentation
+
+## Structure
+
+An encoded string consists out of
+
+- Protocol Control (PC)
+  - Length (always 5 decimals - leading zeros if required!)
+  - Use Memory Indicator (0|1)
+  - XPC Indicator (0|1)
+  - Numbering System Identifier Toggle (0|1)
+  - Application Family Identifier (AFI)
+- Electronic Product Code (EPC)
+
+The length is the decimal representation of the word count of the EPC. A word has a length of 4 Hex chars.
+
+## Example
+
+String: `SPRC 4490`  
+Encoded: `21A14D0483834D39C218`
+
+The actual data in the EPC is `4D0483834D39C218` (16 chars) which results in 4 words since one word as a length of 4 Hex chars. The decimal 
+representation is `00100` since we need a length of 5 decimals with leading zeros.
+
+The Use Memory Indicator and XPC Indicator are 0 and the Numbering System Identifier Toggle is 1.
+
+The first part of the decimal representation of the PC is `00100001` which results in `21` hex.
+
+The Application Family Identifier for product tagging is `A1` as Hex. So the PC is `21A1`
+
+
+
+

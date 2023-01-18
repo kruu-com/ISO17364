@@ -1,8 +1,12 @@
 {
     "name": "kruucom/iso17364",
+    "version": "0.1.0",
     "type": "library",
     "autoload": {
-        "psr-4": {"KruuCom\\": "src/"}
+        "psr-4": {"Iso17364\\": "src/"}
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "require-dev": {
+        "phpunit/phpunit": "^9.0"
+    }
 }

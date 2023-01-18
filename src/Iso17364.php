@@ -1,12 +1,14 @@
 <?php
 
-namespace KruuCom;
+namespace Iso17364;
 
 class Iso17364
 {
 
-    public function encode(string $string): string
+    public function encode(string $string, bool $useUmi, bool $useXpc, Afi $afi): string
     {
+        $toggleBit = true; #we just use AFI encoded tags
+
         $charArray = str_split($string);
 
         $result = [];
@@ -31,7 +33,15 @@ class Iso17364
             $arr[$k] = str_pad(strtoupper(base_convert($a, 2, 16)), 2, "0", STR_PAD_LEFT);
         }
 
-        return implode( "", $arr);
+        $hex = implode("", $arr);
+        $wordLength = 4;
+        $length = strlen($hex)/$wordLength;
+
+        $protocolControlDecimalWithoutLeadingZeros = decbin($length) . (int)$useUmi . (int)$useXpc . (int)$toggleBit;
+        $protocolControlDecimalString = sprintf('%08d', $protocolControlDecimalWithoutLeadingZeros);
+        $protocolControlHex = base_convert($protocolControlDecimalString, 2, 16);
+
+        return $protocolControlHex . $afi->__toString() . $hex;
     }
 
     public function decode(string $string): string
