@@ -1,6 +1,6 @@
 {
     "name": "kruucom/iso17364",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "type": "library",
     "autoload": {
         "psr-4": {"Iso17364\\": "src/"}
