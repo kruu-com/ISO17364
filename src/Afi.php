@@ -2,7 +2,7 @@
 
 namespace Iso17364;
 
-use Iso17364\Afi\AfiException;
+use Iso17364\Exception\AfiException;
 
 class Afi
 {

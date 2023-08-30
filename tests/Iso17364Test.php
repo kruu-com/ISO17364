@@ -22,8 +22,6 @@ final class Iso17364Test extends TestCase
     {
         $iso = new Iso17364();
 
-        var_dump(phpversion());
-
         foreach ($this->testData as $in => $out) {
             $this->assertEquals($out, $iso->encode($in, false, false, Afi::of(Afi::PRODUCT_TAGGING)));
         }
